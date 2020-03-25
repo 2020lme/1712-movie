@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lme.dao.GoodsMapper">
+	
+	<select id="listShop" resultMap="shopMap" useCache="true" /> 
+		select * from shop 
+	</select>
+	
+	<resultMap type="Shop" id="shopMap">
+		<id property="sid" column="sid"/>
+		<result property="sname" column="sname"/>
+		<result property="creat" column="creat"/>
+		<collection property="goods" ofType="Goods" column="sid" select="findBySid">
+			<id property="gid" column="gid"/>
+			<result property="gname" column="gname"/>
+		</collection>
+	</resultMap>
+	
+	<select id="findBySid" resultType="Goods">
+		select * from goods join sg on(goods.gid=sg.gid)
+		 where on.sid=#{sid}
+	</select>
+	
+</mapper>
